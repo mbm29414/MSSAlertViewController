@@ -36,6 +36,36 @@ Here's how you'd execute condition code based on the button clicked/tapped:
                      completion:nil];
 
 
+If you want to use this form for text entry, it's pretty easy:
+
+    MSSAlertViewController *alert   = [MSSAlertViewController alertWithTitle:@"This is a text-entry alert!" message:@"Enter some text below..."];
+    __weak typeof(alert) weakAlert  = alert;
+    alert.showTextField             = YES;
+    [alert addButtonWithTitle:@"OK"
+                   tapHandler:^{
+                       NSString *text                   = weakAlert.enteredText;
+                       // Now, do something with it...
+                   }
+     ];
+    // In case the user doesn't want to enter anything...
+    [alert addButtonWithTitle:@"Cancel"     tapHandler:nil];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+What about a password entry form? That's pretty easy, too:
+
+    MSSAlertViewController *alert   = [MSSAlertViewController alertWithTitle:@"This is a secure, password-entry alert!" message:nil];
+    __weak typeof(alert) weakAlert  = alert;
+    alert.showTextField             = YES;
+    alert.textFieldSecure           = YES;
+    [alert addButtonWithTitle:@"OK"
+                   tapHandler:^{
+                       NSString *password               = weakAlert.enteredText;
+                       // Now, you've got the password...
+                   }
+     ];
+    [alert addButtonWithTitle:@"Cancel"     tapHandler:nil];
+    [self presentViewController:alert animated:YES completion:nil];
+
 <b>Options:</b>
 
 Have a look at ViewController.h/.m in the demo project to see some ways to style
